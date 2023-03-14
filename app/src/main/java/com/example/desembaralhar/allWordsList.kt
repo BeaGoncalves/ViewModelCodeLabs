@@ -1,0 +1,46 @@
+package com.example.desembaralhar
+
+const val MAX_NO_OF_WORDS = 10
+const val SCORE_INCREASE = 20
+
+val allWordsList : List<String> =
+    listOf(
+        "animal",
+        "alto",
+        "alfabeto",
+        "tudo",
+        "balão",
+        "basquete",
+        "melhor",
+        "aniversario",
+        "livro",
+        "camera",
+        "acampamento",
+        "gato",
+        "conversa",
+        "criança",
+        "classe",
+        "café",
+        "biscoito",
+        "criativo",
+        "dança",
+        "dinossauro",
+        "sonho",
+        "almoço",
+        "elefante",
+        "fim",
+        "verde",
+        "lobo",
+        "raposa",
+        "piada",
+        "convite",
+        "taxi",
+        "viagem",
+        "rua",
+        "unicornio",
+        "caminhão",
+        "camiseta",
+        "relogio",
+        "mundo",
+        "zebra",
+    )

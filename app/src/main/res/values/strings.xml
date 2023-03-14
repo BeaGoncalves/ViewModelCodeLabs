@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Desembaralhar</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="score">Pontuação: %d</string>
+    <string name="parabens">Parabéns!</string>
+    <string name="jogar_novamente">Jogar novamente</string>
+    <string name="sair">sair</string>
+    <string name="word_count">%d de %d palavras</string>
+    <string name="sua_pontuacao">Sua pontuação: %d</string>
+
+</resources>
