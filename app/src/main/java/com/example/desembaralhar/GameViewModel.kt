@@ -1,7 +1,11 @@
 package com.example.desembaralhar
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TtsSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
@@ -15,8 +19,21 @@ class GameViewModel : ViewModel() {
     get() = _contagemPalavraAtual
 
     private val _palavraEmbaralhadaAtual = MutableLiveData<String>()
-    val palavraEmbaralhadaAtual : LiveData<String>
-    get() = _palavraEmbaralhadaAtual
+    val palavraEmbaralhadaAtual : LiveData<Spannable> = Transformations.map(_palavraEmbaralhadaAtual) {
+        if (it == null) {
+            SpannableString("")
+        } else {
+            val palavraEmbaralhada = it.toString()
+            val spannable : Spannable = SpannableString(palavraEmbaralhada)
+            spannable.setSpan(
+                TtsSpan.VerbatimBuilder(palavraEmbaralhada).build(),
+                0,
+                palavraEmbaralhada.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            spannable
+        }
+    }
 
     private var listPalavras : MutableList<String> = mutableListOf()
     private lateinit var palavraAtual : String
