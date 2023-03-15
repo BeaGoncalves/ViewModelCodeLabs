@@ -1,8 +1,19 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="gameViewModel"
+            type="com.example.desembaralhar.GameViewModel" />
+
+        <variable
+            name="maxNoOfWords"
+            type="Integer" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
@@ -51,14 +62,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/word_count"
-            tools:text="Desembaralhe as palavras"
-            android:gravity="center"/>
+            tools:text="@{gameViewModel.palavraEmbaralhadaAtual}"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/word_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 de 10 palavras"
+            android:text="@{@string/word_count(gameViewModel.palavraEmbaralhadaAtual, maxNoOfWords)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintBottom_toTopOf="@+id/textView_unscrambled_word"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +80,7 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PONTUAÇÂO: 0"
+            android:text="@{@string/score(gameViewModel.pontos)}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,3 +109,4 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

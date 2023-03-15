@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.example.desembaralhar.databinding.FragmentGameBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,7 +24,7 @@ class GameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentGameBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         return binding.root
     }
 
@@ -33,19 +34,27 @@ class GameFragment : Fragment() {
         binding.submit.setOnClickListener { enviarPalavra() }
         binding.skip.setOnClickListener { aoPularPalavra() }
 
-        atualizaProximaPalavraNatela()
-        binding.score.text = getString(R.string.score, 0)
-        binding.wordCount.text = getString(R.string.word_count, 0, MAX_NO_OF_WORDS)
+        binding.gameViewModel = viewModel
+        binding.maxNoOfWords = MAX_NO_OF_WORDS
+        binding.lifecycleOwner = viewLifecycleOwner
+
+
+        // esses dois observers não são mais necessários logo que o componente acima
+        //já cuida da vinculação do liveData ao layout
+//        viewModel.pontos.observe(viewLifecycleOwner) { pontos ->
+//            binding.score.text = getString(R.string.score, pontos)
+//        }
+//
+//        viewModel.contagemPalavraAtual.observe(viewLifecycleOwner){ contador ->
+//            binding.wordCount.text = getString(R.string.word_count, contador, MAX_NO_OF_WORDS)
+//        }
+
     }
 
-    private fun atualizaProximaPalavraNatela() {
-        binding.textViewUnscrambledWord.text = viewModel.palavraEmbaralhadaAtual
-    }
 
     private fun aoPularPalavra() {
         if (viewModel.proximaPalavra()){
             configuraErroCaixaDeTexto(false)
-            atualizaProximaPalavraNatela()
         } else {
             mostraPontuacaoFinalDialog()
         }
@@ -55,9 +64,7 @@ class GameFragment : Fragment() {
         val respostaDoJogador = binding.textInputEditText.text.toString()
         if (viewModel.aPalavraDoUsuarioEstaCorreta(respostaDoJogador)){
             configuraErroCaixaDeTexto(false)
-            if (viewModel.proximaPalavra()){
-                atualizaProximaPalavraNatela()
-            } else {
+            if (!viewModel.proximaPalavra()){
                 mostraPontuacaoFinalDialog()
             }
         } else {
@@ -82,7 +89,7 @@ class GameFragment : Fragment() {
     private fun mostraPontuacaoFinalDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.parabens)
-            .setMessage(getString(R.string.sua_pontuacao, viewModel.pontos))
+            .setMessage(getString(R.string.sua_pontuacao, viewModel.pontos.value))
             /** evita que a caixa de dialogo seja cancelada caso o usuario pressione o botao voltar */
             .setCancelable(false)
             .setNegativeButton(getString(R.string.sair)) { _, _ ->
@@ -97,7 +104,6 @@ class GameFragment : Fragment() {
     private fun reinicializarJogo() {
         viewModel.reinicializarDados()
         configuraErroCaixaDeTexto(false)
-        atualizaProximaPalavraNatela()
     }
 
 }

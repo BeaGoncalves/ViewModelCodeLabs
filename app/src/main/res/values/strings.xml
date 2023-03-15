@@ -7,5 +7,6 @@
     <string name="sair">sair</string>
     <string name="word_count">%d de %d palavras</string>
     <string name="sua_pontuacao">Sua pontuação: %d</string>
+    <string name="count_word">%d de %d palavras</string>
 
 </resources>
